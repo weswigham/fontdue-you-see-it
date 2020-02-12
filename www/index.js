@@ -40,6 +40,7 @@ function renderFontdueCharacter(char = "¾", size = 600) {
     elem.width = rednerResult.width + 20;
     const ctx = elem.getContext("2d");
     ctx.putImageData(image, 10, 10);
+    rednerResult.free();
     return [elem.height, elem.width];
 }
 

@@ -40,7 +40,9 @@ impl ByteStream {
 pub struct CharRender {
     pub height: usize,
     pub width: usize,
-    pub bitmap: ByteStream
+    pub bitmap: ByteStream,
+    #[allow(dead_code)]
+    underlying: Vec<u8>
 }
 
 #[wasm_bindgen]
@@ -50,6 +52,7 @@ pub fn render(size: f32, input: char) -> CharRender {
     CharRender{
         height: metrics.height,
         width: metrics.width,
-        bitmap: ByteStream::new(&bitmap)
+        bitmap: ByteStream::new(&bitmap),
+        underlying: bitmap
     }
 }
