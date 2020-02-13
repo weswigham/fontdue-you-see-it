@@ -24,9 +24,32 @@ function getCanvasB() {
     return elem;
 }
 
+/**
+ * @param {Uint8ClampedArray} buffer 
+ * @param {number} width 
+ * @param {number} height 
+ */
+function logFormatted(buffer, width, height) {
+    let lines = [];
+    for (let y = 0; y < height; y++) {
+        let line = [];
+        for (let x = 0; x < width; x++) {
+            let val = "" + buffer[y * width + x];
+            while (val.length < 3) {
+                val = " " + val;
+            }
+            line.push(val);
+        }
+        lines.push(line.join(" "));
+    }
+    console.log(lines.join("\n"))
+    console.log(width, height);
+}
+
 function renderFontdueCharacter(char = "¾", size = 600) {
     const rednerResult = wasm.render(size, char);
     const textureRaw = new Uint8ClampedArray(memory.buffer, rednerResult.bitmap.offset(), rednerResult.bitmap.size());
+    logFormatted(textureRaw, rednerResult.width, rednerResult.height);
     const clampedFullColor = new Uint8ClampedArray(textureRaw.length * 4);
     for (let i = 0; i < textureRaw.length; i++) {
         clampedFullColor[i*4] = 255 - textureRaw[i];

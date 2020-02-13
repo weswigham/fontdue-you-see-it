@@ -2,6 +2,7 @@ mod utils;
 
 use wasm_bindgen::prelude::*;
 use fontdue::*;
+use utils::*;
 
 const ROBOTO_MONO_REGULAR_TTF: &[u8] = include_bytes!("../resources/RobotoMono-Regular.ttf");
 
@@ -47,6 +48,7 @@ pub struct CharRender {
 
 #[wasm_bindgen]
 pub fn render(size: f32, input: char) -> CharRender {
+    set_panic_hook();
     let font = Font::from_bytes(ROBOTO_MONO_REGULAR_TTF, FontSettings::default()).unwrap();
     let (metrics, bitmap) = font.rasterize(input, size);
     CharRender{
