@@ -49,7 +49,6 @@ function logFormatted(buffer, width, height) {
 function renderFontdueCharacter(char = "¾", size = 600) {
     const rednerResult = wasm.render(size, char);
     const textureRaw = new Uint8ClampedArray(memory.buffer, rednerResult.bitmap.offset(), rednerResult.bitmap.size());
-    logFormatted(textureRaw, rednerResult.width, rednerResult.height);
     const clampedFullColor = new Uint8ClampedArray(textureRaw.length * 4);
     for (let i = 0; i < textureRaw.length; i++) {
         clampedFullColor[i*4] = 255 - textureRaw[i];
