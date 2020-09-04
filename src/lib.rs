@@ -49,7 +49,11 @@ pub struct CharRender {
 #[wasm_bindgen]
 pub fn render(size: f32, input: char) -> CharRender {
     set_panic_hook();
-    let font = Font::from_bytes(ROBOTO_MONO_REGULAR_TTF, FontSettings::default()).unwrap();
+    let settings = fontdue::FontSettings {
+        scale: size,
+        ..fontdue::FontSettings::default()
+    };
+    let font = Font::from_bytes(ROBOTO_MONO_REGULAR_TTF, settings).unwrap();
     let (metrics, bitmap) = font.rasterize(input, size);
     CharRender{
         height: metrics.height,
