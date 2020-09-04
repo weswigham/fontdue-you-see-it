@@ -62,23 +62,24 @@ function renderFontdueCharacter(char = "¾", size = 600) {
     elem.width = rednerResult.width + 20;
     const ctx = elem.getContext("2d");
     ctx.putImageData(image, 10, 10);
+    const [xmin, ymin] = [rednerResult.xmin, rednerResult.ymin];
     rednerResult.free();
-    return [elem.height, elem.width];
+    return [elem.height, elem.width, xmin, ymin];
 }
 
-function renderBuiltinCharacter(char = "¾", height = 200, width = 200, size = 600) {
+function renderBuiltinCharacter(char = "¾", xmin, ymin, height = 200, width = 200, size = 600) {
     const elem = getCanvasB();
     elem.height = height;
     elem.width = width;
     const ctx = elem.getContext("2d");
     ctx.font = `${size}px 'Roboto Mono'`;
-    ctx.fillText(char, 10, height - 10);
+    ctx.fillText(char, 10 - xmin, height + ymin - 10);
 }
 
 const input = /** @type {HTMLInputElement} */(document.getElementById("input"));
 input.addEventListener("change", function () {
-    const [height, width] = renderFontdueCharacter(this.value);
-    renderBuiltinCharacter(this.value, height, width);
+    const [height, width, xmin, ymin] = renderFontdueCharacter(this.value);
+    renderBuiltinCharacter(this.value, xmin, ymin, height, width);
 });
-const [height, width] = renderFontdueCharacter();
-renderBuiltinCharacter(undefined, height, width);
+const [height, width, xmin, ymin] = renderFontdueCharacter();
+renderBuiltinCharacter(undefined, xmin, ymin, height, width);

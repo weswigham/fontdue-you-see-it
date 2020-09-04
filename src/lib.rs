@@ -41,6 +41,8 @@ impl ByteStream {
 pub struct CharRender {
     pub height: usize,
     pub width: usize,
+    pub xmin: f32,
+    pub ymin: f32,
     pub bitmap: ByteStream,
     #[allow(dead_code)]
     underlying: Vec<u8>
@@ -55,9 +57,11 @@ pub fn render(size: f32, input: char) -> CharRender {
     };
     let font = Font::from_bytes(ROBOTO_MONO_REGULAR_TTF, settings).unwrap();
     let (metrics, bitmap) = font.rasterize(input, size);
-    CharRender{
+    CharRender {
         height: metrics.height,
         width: metrics.width,
+        xmin: metrics.bounds.xmin,
+        ymin: metrics.bounds.ymin,
         bitmap: ByteStream::new(&bitmap),
         underlying: bitmap
     }
